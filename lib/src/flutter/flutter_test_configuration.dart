@@ -1,29 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:flutter_driver/flutter_driver.dart';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
-import 'package:flutter_gherkin/src/flutter/build_mode.dart';
-import 'package:flutter_gherkin/src/flutter/flutter_world.dart';
 import 'package:flutter_gherkin/src/flutter/hooks/app_runner_hook.dart';
 import 'package:flutter_gherkin/src/flutter/parameters/existence_parameter.dart';
 import 'package:flutter_gherkin/src/flutter/parameters/swipe_direction_parameter.dart';
-import 'package:flutter_gherkin/src/flutter/steps/given_i_open_the_drawer_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/restart_app_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/sibling_contains_text_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/swipe_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/tap_text_within_widget_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/tap_widget_of_type_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/tap_widget_of_type_within_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/tap_widget_with_text_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/text_exists_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/text_exists_within_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/then_expect_element_to_have_value_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/wait_until_key_exists_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/wait_until_type_exists_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/when_fill_field_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/when_pause_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/when_tap_widget_step.dart';
-import 'package:flutter_gherkin/src/flutter/steps/when_tap_the_back_button_step.dart';
-import 'package:flutter_driver/flutter_driver.dart';
 import 'package:gherkin/gherkin.dart';
 
 import 'steps/then_expect_widget_to_be_present_step.dart';
@@ -182,7 +164,7 @@ class FlutterTestConfiguration extends TestConfiguration {
   }
 
   @override
-  void prepare() {
+  TestConfiguration prepare() {
     _ensureCorrectConfiguration();
     final providedCreateWorld = createWorld;
     createWorld = (config) async {
@@ -227,6 +209,13 @@ class FlutterTestConfiguration extends TestConfiguration {
         WaitUntilKeyExistsStep(),
         WaitUntilTypeExistsStep(),
       ]);
+    return TestConfiguration(
+      customStepParameterDefinitions: customStepParameterDefinitions,
+      stepDefinitions: stepDefinitions,
+      hooks: hooks,
+      createWorld: createWorld,
+      
+    );
   }
 
   Future<FlutterDriver> _attemptDriverConnection(
